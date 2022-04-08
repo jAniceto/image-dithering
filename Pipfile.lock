@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "50541ebd1e358e19fd1abf7ff833c7dbd5e3484685f8b85c606d51ffe7892041"
+            "sha256": "f04ef322c7839304f7282fd17ff485a41411b8b1c4d0cb541f9323035f598dbf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,22 @@
         ]
     },
     "default": {
+        "click": {
+            "hashes": [
+                "sha256:24e1a4a9ec5bf6299411369b208c1df2188d9eb8d916302fe6bf03faed227f1e",
+                "sha256:479707fe14d9ec9a0757618b7a100a0ae4c4e236fac5b7f80ca68028141a1a72"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==8.1.2"
+        },
+        "colorama": {
+            "hashes": [
+                "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b",
+                "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"
+            ],
+            "markers": "platform_system == 'Windows'",
+            "version": "==0.4.4"
+        },
         "pillow": {
             "hashes": [
                 "sha256:01ce45deec9df310cbbee11104bae1a2a43308dd9c317f99235b6d3080ddd66e",
@@ -59,6 +75,14 @@
             ],
             "index": "pypi",
             "version": "==9.1.0"
+        },
+        "typer": {
+            "hashes": [
+                "sha256:5646aef0d936b2c761a10393f0384ee6b5c7fe0bb3e5cd710b17134ca1d99cff",
+                "sha256:e8467f0ebac0c81366c2168d6ad9f888efdfb6d4e1d3d5b4a004f46fa444b5c3"
+            ],
+            "index": "pypi",
+            "version": "==0.4.1"
         }
     },
     "develop": {}
