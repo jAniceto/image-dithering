@@ -57,7 +57,7 @@ def multiply_color(color: Color, value: float):
     )
 
 
-def render(image: Image, img_path: Path, pallete_name: str):
+def render(image: Image, img_path: Path, pallete_name: str, dithering: bool = True):
     """Render a new image applying Floyd-Steinberg dithering."""
     for y in range(image.height):
         for x in range(image.width):
@@ -74,46 +74,51 @@ def render(image: Image, img_path: Path, pallete_name: str):
                 color.b - new_color.b
             )
 
-            if (x + 1 < image.width and y + 1 < image.height):
+            if dithering:
+                # Apply Floyd-Steinberg dithering
+                if (x + 1 < image.width and y + 1 < image.height):
 
-                temp_pixel = image.getpixel((x + 1, y))
-                temp_color = pixel_to_color(temp_pixel)
-                draw.point(
-                    (x + 1, y), 
-                    color_to_pixel( add_colors(temp_color, multiply_color(quant_error, 7/16)) )
-                )
+                    temp_pixel = image.getpixel((x + 1, y))
+                    temp_color = pixel_to_color(temp_pixel)
+                    draw.point(
+                        (x + 1, y), 
+                        color_to_pixel( add_colors(temp_color, multiply_color(quant_error, 7/16)) )
+                    )
 
-                temp_pixel = image.getpixel((x - 1, y + 1))
-                temp_color = pixel_to_color(temp_pixel)
-                draw.point(
-                    (x - 1, y + 1), 
-                    color_to_pixel( add_colors(temp_color, multiply_color(quant_error, 3/16)) )
-                )
+                    temp_pixel = image.getpixel((x - 1, y + 1))
+                    temp_color = pixel_to_color(temp_pixel)
+                    draw.point(
+                        (x - 1, y + 1), 
+                        color_to_pixel( add_colors(temp_color, multiply_color(quant_error, 3/16)) )
+                    )
 
-                temp_pixel = image.getpixel((x, y + 1))
-                temp_color = pixel_to_color(temp_pixel)
-                draw.point(
-                    (x, y + 1), 
-                    color_to_pixel( add_colors(temp_color, multiply_color(quant_error, 5/16)) )
-                )
+                    temp_pixel = image.getpixel((x, y + 1))
+                    temp_color = pixel_to_color(temp_pixel)
+                    draw.point(
+                        (x, y + 1), 
+                        color_to_pixel( add_colors(temp_color, multiply_color(quant_error, 5/16)) )
+                    )
 
-                temp_pixel = image.getpixel((x + 1, y + 1))
-                temp_color = pixel_to_color(temp_pixel)
-                draw.point(
-                    (x + 1, y + 1), 
-                    color_to_pixel( add_colors(temp_color, multiply_color(quant_error, 1/16)) )
-                )
+                    temp_pixel = image.getpixel((x + 1, y + 1))
+                    temp_color = pixel_to_color(temp_pixel)
+                    draw.point(
+                        (x + 1, y + 1), 
+                        color_to_pixel( add_colors(temp_color, multiply_color(quant_error, 1/16)) )
+                    )
 
-    new_image_name = f'{img_path.stem}-{pallete_name}{img_path.suffix}'
+    if dithering:
+        new_image_name = f'{img_path.stem}-{pallete_name}-dithering{img_path.suffix}'
+    else:
+        new_image_name = f'{img_path.stem}-{pallete_name}{img_path.suffix}'
     image.save(img_path.parent / new_image_name)
 
 
 @app.command()
-def run(path_to_image: str, pallete: str = 'B&W'):
+def main(path_to_image: str, pallete: str = 'B&W', dithering: bool = True):
     img_path = Path(path_to_image)
     
     with Image.open(img_path) as image:
-        render(image, img_path, pallete)
+        render(image, img_path, pallete, dithering=dithering)
 
 
 if __name__ == '__main__':
